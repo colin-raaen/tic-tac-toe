@@ -1,0 +1,130 @@
+/* Styling for nav of hamburger menu */
+nav {
+    padding: 1rem;
+    display: flex;
+    background-color: transparent;
+}
+
+/* Styling for Hamburger menu */
+.ham-menu {
+    height: 50px;
+    width: 50px;
+    margin-left: auto; /* gets menu to go right of nav bar */
+    position: relative; /* children need to be positioned relative to parents */
+}
+
+/* Styling for Hamburger menu bars */
+.ham-menu span{
+    height: 5px;
+    width: 100%;
+    background-color: black;
+    border-radius: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: .3s ease; /* transition */
+}
+
+.ham-menu span:nth-child(1){
+    top: 25%; /* positioning so bars aren't on top of each other */
+}
+
+.ham-menu span:nth-child(3){
+    top: 75%; /* positioning so bars aren't on top of each other */
+}
+
+/* Styling for ham menu when clicked */
+/* slant top bar to make half of the x button */
+.ham-menu.active span:nth-child(1){
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+.ham-menu.active span:nth-child(2){
+    opacity: 0; /* Hide middle bar */
+}
+/* Slant the bottom bar to make the other half of the x button */
+.ham-menu.active span:nth-child(3){
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Styling for Hamburger menu item */
+.off-screen-menu {
+    background-color: transparent;
+    height: 25vh;
+    width: 100%;
+    max-width: 350px;
+    position: fixed;
+    top: 0;
+    right: -450px; /* Initially hidden off-screen */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    font-size: 1.5rem;
+    transition: .3s ease; /* animation for transition */
+}
+
+/* Styling for Hamburger menu item when active*/
+.off-screen-menu.active {
+    right: 0; /* position on screen */
+}
+
+.off-screen-menu a {
+    text-decoration: none;
+    color: black; /* text color here */
+}
+
+/* Add hover effect if desired */
+.off-screen-menu a:hover {
+    color: #1376b2; /* hover color */
+}
+
+/* Styling for off-screen menu items */
+.off-screen-menu ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+}
+
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.board {
+    margin-top: 20px; /* Add margin at the top to separate it from the header */
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 5px;
+    margin: 20px auto;
+    width: 300px;
+}
+
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    font-size: 36px;
+    border: 1px solid #333;
+    cursor: pointer;
+}
+
+button {
+    margin: 20px;
+    font-size: 16px;
+}
+
+h1 {
+    color: #333;
+}
+
+#message {
+    font-size: 20px;
+    color: #333;
+}
