@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', function()
     const cells = document.querySelectorAll('.cell'); // Get all the cell elements by class name
     const difficultButton = document.getElementById('difficult'); // store difficult button
     const easyButton = document.getElementById('easy'); // store easy button
+    const webPage = document.getElementById('page-wrapper'); // store entire webpage for event listener delegation
+    const winMessage = document.getElementById('win-message'); // store win message
+    const loseMessage = document.getElementById('lose-message'); // store lose message
+    const drawMessage = document.getElementById('draw-message'); // store win message
 
     const currentPlayer = 'X'; // define variable for current player
     const PLAYER_O = 'O'; // constant that represents computers move
@@ -14,100 +18,91 @@ document.addEventListener('DOMContentLoaded', function()
     let difLevelEasy = true; // variable to store difficulty level, by default mark easy as true
     let difLevelDifficult = false; // variable to store difficulty level, by default mark easy as true
 
-    // Add click event listeners to the difficulty buttons
-    easyButton.addEventListener('click', function () {
-        // call function to color the button accordingly
-        setDifficulty(true);
-    });
+    // delegated event listener, listen for clicks to entire page
+    webPage.addEventListener('click', function(event){
+        // if click is on easy button
+        if (event.target === easyButton) {
+            // call function to color the button accordingly
+            setDifficulty(true);
+        }
 
-    difficultButton.addEventListener('click', function () {
-        // call function to color the button accordingly
-        setDifficulty(false);
-    });
+        // if click was on difficult button
+        if (event.target === difficultButton) {
+            // call function to color the button accordingly
+            setDifficulty(false);
+        };
 
-    // Add a click event listener to each cell
-    cells.forEach(cell => {
-      cell.addEventListener('click', function(event) {
-        let cellNumber = this.getAttribute('data-cell'); // Store row number of cell that is clicked
-        // Get the value of the data-state attribute
-        let dataStateValue = this.getAttribute("data-state");
-
-        // Use document.getElementById to access the cell element
-        let cellElement = document.getElementById('cell-' + cellNumber);
-
-        // Check if the cell that was clicked is empty (dataStateValue is still set to empty)
-        if (dataStateValue === 'empty'){
-            // Call function to handle move
-            handleMove(currentPlayer, cellNumber, cellElement)
-
-            // Call Check win function
-            let winner = checkWin();
-
-            if (winner != null){
-                // Call Print Winner function
-                printWinner(winner);
-                return; // return to prevent additional computer move
-            }
-
-
-            // If no Winner is found then generate Computers response
-            // Call function to generate computers move
-            // declare variable to store computers move
-            let computerMove;
-
-            // if difficulty level is difficult
-            if (difLevelDifficult === true){
-                // call difficult computer move method and store result
-                computerMove = getComputerMoveDifficult();
-            }
-            // else if difficulty level is easy
-            else if (difLevelEasy === true){
-                // call method to get randomly generated number for computer move
-                computerMove = getComputerMove();
-            }
-
-            // Get HTML element for Computer move
-            let computerCellElement = document.getElementById('cell-' + computerMove);
-
-            // Call function to handle computers move after a delay of 1 second using setTimeout
-            setTimeout(function () {
-                handleMove(PLAYER_O, computerMove, computerCellElement);
-
+        // if click was on a cell of the board
+        if (event.target.classList.contains('cell')) {
+            let cellNumber = event.target.getAttribute('data-cell'); // Store row number of cell that is clicked
+            // Get the value of the data-state attribute
+            let dataStateValue = event.target.getAttribute("data-state");
+    
+            // Use document.getElementById to access the cell element
+            let cellElement = document.getElementById('cell-' + cellNumber);
+    
+            // Check if the cell that was clicked is empty (dataStateValue is still set to empty)
+            if (dataStateValue === 'empty'){
+                // Call function to handle move
+                handleMove(currentPlayer, cellNumber, cellElement)
+    
                 // Call Check win function
-                winner = checkWin();
-                // Call Print Winner function
-                printWinner(winner);
-            }, 300); // 1000 milliseconds (1 second) delay
+                let winner = checkWin();
+    
+                if (winner != null){
+                    // Call Print Winner function
+                    printWinner(winner);
+                    return; // return to prevent additional computer move
+                }
+    
+                // If no Winner is found then generate Computers response
+                // Call function to generate computers move
+                // declare variable to store computers move
+                let computerMove;
+    
+                // if difficulty level is difficult
+                if (difLevelDifficult === true){
+                    // call difficult computer move method and store result
+                    computerMove = getComputerMoveDifficult();
+                }
+                // else if difficulty level is easy
+                else if (difLevelEasy === true){
+                    // call method to get randomly generated number for computer move
+                    computerMove = getComputerMove();
+                }
+    
+                // Get HTML element for Computer move
+                let computerCellElement = document.getElementById('cell-' + computerMove);
+    
+                // Call function to handle computers move after a delay of 1 second using setTimeout
+                setTimeout(function () {
+                    handleMove(PLAYER_O, computerMove, computerCellElement);
+    
+                    // Call Check win function
+                    winner = checkWin();
+                    // Call Print Winner function
+                    printWinner(winner);
+                }, 300); // 1000 milliseconds (1 second) delay
+            }
         }
-        });
-    });
+        // if reset button was clicked
+        if (event.target === resetButton){
+            // loop through cells and reset cells values
+            cells.forEach(cell => {
+                cell.textContent = '';
+                cell.setAttribute("data-state", "empty");
+            });
 
-    // Set click listener event on the reset button
-    resetButton.addEventListener('click', function(event){
-        // loop through cells and reset cells values
-        cells.forEach(cell => {
-            cell.textContent = '';
-            cell.setAttribute("data-state", "empty");
-        });
+            // loop through board array and reset
+            for (let i = 0; i < boardArray.length; i++){
+                boardArray[i] = String(i + 1);
+            }
 
-        // loop through board array and reset
-        for (let i = 0; i < boardArray.length; i++){
-            boardArray[i] = String(i + 1);
+            // rehide flash messages if showing
+            loseMessage.style.display = 'none'; // rehide lose flash message
+            winMessage.style.display = 'none'; // rehide win flash message
+            drawMessage.style.display = 'none'; // rehide draw flash message
         }
-    });
-
-    // JAVASCRIPT TO SHOW AND HIDE MENU TO PROJECT PAGE
-    // get and store menu toggle DOM item
-    const hamMenu = document.querySelector('.ham-menu');
-    // get and store off screen menu
-    const offScreenMenu = document.querySelector('.off-screen-menu');
-
-    // Event listener for ham menu
-    hamMenu.addEventListener('click', () => {
-        // toggle ham menu and off screen menu to active to show the menu
-      hamMenu.classList.toggle('active');
-      offScreenMenu.classList.toggle('active');
-
     });
 
     // Function to set the difficulty level
@@ -226,7 +221,6 @@ document.addEventListener('DOMContentLoaded', function()
 
     // Function to Check for Winner
     function checkWin() {
-        var winner = null;
         // Loop through scenarios of tic-tac-toe winner
                 for (let a = 0; a < 8; a++){
                     var line = null; // define string to capture values of board at potential winning scenario
@@ -284,16 +278,14 @@ document.addEventListener('DOMContentLoaded', function()
     // Function to print winner on screen
     function printWinner(winner){
         if (winner === "player"){
-            alert("Congratulation! You won the game!");
+            winMessage.style.display = 'block'; // show win flash message
         }
         else if (winner === "computer"){
-            alert("The computer beat you :( AI is taking over the world!");
+            loseMessage.style.display = 'block'; // show lose flash message
         }
         else if (winner === "draw"){
-            alert("It's a draw! Thanks for playing");
+            drawMessage.style.display = 'block'; // show draw flash message
         }
         return; // If no winner is found return
     }
-
 });
-

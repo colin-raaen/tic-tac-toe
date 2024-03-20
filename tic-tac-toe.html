@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-
+        <title>Tic-Tac-Toe</title>
+        
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
 
@@ -12,47 +13,44 @@
                 integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-        <title>Tic-Tac-Toe</title>
-
         <!-- CSS code file -->
         <link href="tic-tac-toe.css" rel="stylesheet">
 
         <!-- JavaScript code file -->
         <script src="tic-tac-toe.js"></script>
 
+        <!-- Flavicon Tab icon/image -->
+        <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+
     </head>
 
     <body>
-        <div class="header" id="myHeader">
+        <!-- page wrapper to allow footer attached to bottom of the page -->
+        <div class="page-wrapper" id="page-wrapper">
+            <h1 class="game-header"><b>Tic-Tac-Toe</b></h1>
+            <div id="opening-text">Select a difficulty level</div>
 
-            <!-- Navigation menu that's initially off-screen, appears when hitting the hamburger menu -->
-            <div class="off-screen-menu">
-                <ul>
-                    <li><a href="../../portfolio/index.html">HOME</a></li>
-                    <li><a href="../../portfolio/index.html#about-me">ABOUT ME</a></li>
-                    <li><a href="../../portfolio/index.html#my-projects">PROJECTS</a></li>
-                    <li><a href="../../portfolio/index.html#contact-me">CONTACT</a></li>
-                </ul>
+            <button class="btn btn-primary" id="easy">Easy</button>
+            <button class="btn btn-primary" id="difficult">Difficult</button>
+
+            <div id="first-move">Select a cell to make the first move</div>
+
+            <!-- Game result messages, initially hidden -->
+            <div class="alert alert-success" id="win-message" role="alert" style="display: none;">
+                CONGRATS! You beat the Computer!
+            </div>
+            
+            <div class="alert alert-danger" id="lose-message" role="alert" style="display: none;">
+                SORRY! You lost to the computer
             </div>
 
-            <!-- Hamburger menu -->
-            <nav>
-                <div class="ham-menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </nav>
-        </div>
+            <div class="alert alert-warning" id="draw-message" role="alert" style="display: none;">
+                It's a draw!
+            </div>
 
-
-        <h1><b>Tic-Tac-Toe</b></h1>
-        <div id="opening-text">Select a difficulty level</div>
-
-        <button class="btn btn-primary" id="easy">Easy</button>
-        <button class="btn btn-primary" id="difficult">Difficult</button>
-
-        <div id="first-move">Select a cell to make the first move</div>
+            <!-- Game board -->
             <div class="board">
                 <div class="cell" id="cell-1" data-cell="1" data-state="empty"></div>
                 <div class="cell" id="cell-2" data-cell="2" data-state="empty"></div>
@@ -64,9 +62,14 @@
                 <div class="cell" id="cell-8" data-cell="8" data-state="empty"></div>
                 <div class="cell" id="cell-9" data-cell="9" data-state="empty"></div>
             </div>
-        <button class="btn btn-primary" id="resetButton">Reset Board</button>
-        <p id="message"></p>
 
+            <button class="btn btn-primary" id="resetButton">Reset Board</button>
+            <p id="message"></p>
+        </div>
+
+        <footer class="footer">
+            <a class="footer-top" href="../../portfolio/index.html">RETURN TO MY PORTFOLIO</div>
+        </footer>
     </body>
 </html>
 
